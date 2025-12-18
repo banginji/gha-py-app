@@ -68,3 +68,5 @@ jobs:
         uses: colindean/diff-poetry-lock@nl
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          github_repository: ${{ github.repository }}
