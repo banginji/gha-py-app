@@ -1,5 +1,7 @@
 # gha-py-app
 
+![CI](https://github.com/banginji/gh-py-app/actions/workflows/ci.yml/badge.svg)
+
 A minimal Python project built with the [make-python-devex](https://github.com/target/make-python-devex) pattern and automated with GitHub Actions plus the [diff-poetry-lock](https://github.com/colindean/diff-poetry-lock) action.
 
 ## Features
