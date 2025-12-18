@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - master
+  pull_request:
+    branches: ["main", "master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PYTHON_VERSION: "3.13"
+      POETRY_HOME: ${{ runner.temp }}/poetry
+      POETRY_VIRTUALENVS_IN_PROJECT: "true"
+      POETRY_NO_INTERACTION: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "${POETRY_HOME}/bin" >> "$GITHUB_PATH"
+
+      - name: Cache local virtualenv
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: ${{ runner.os }}-venv-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-venv-
+
+      - name: Install dependencies
+        run: make deps
+
+      - name: Run checks
+        run: make check
+
+      - name: Run tests
+        run: make test
+
+      - name: Build package
+        run: make build
+
+  diff-poetry-lock:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master')
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Diff poetry.lock
+        uses: colindean/diff-poetry-lock@nl
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

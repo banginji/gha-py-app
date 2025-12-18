@@ -1,0 +1,52 @@
+[project]
+name = "gha-py-app"
+description = "A minimal Python project using make-python-devex patterns with GitHub Actions"
+license = "MIT"
+readme = "README.md"
+authors = [
+    {name = "Developer", email = "dev@example.com"}
+]
+requires-python = ">=3.13,<4.0.0"
+dynamic = ["version", "dependencies"]
+
+[tool.poetry]
+version = "0.1.0"
+packages = [{include = "gha_py_app", from = "src"}]
+requires-poetry = ">=2.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project.scripts]
+gha-py-app = "gha_py_app:main"
+
+[tool.poetry.dependencies]
+python = ">=3.13,<4.0"
+# Simple logging
+loguru = "0.7"
+
+[tool.poetry.group.dev.dependencies]
+# Test framework
+pytest = "^8"
+# Coverage
+pytest-cov = "^6"
+# Lightning fast linter and formatter
+ruff = "^0.8"
+
+[tool.ruff]
+line-length = 119
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W"]
+ignore = []
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+testpaths = ["tests"]
+addopts = """
+    -vv -ra --quiet \
+    --cov=src/gha_py_app --cov-report=xml --cov-report=html --cov-report=term \
+    --junit-xml=build/reports/pytest.xml
+"""
