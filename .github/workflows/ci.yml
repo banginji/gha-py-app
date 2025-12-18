@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PYTHON_VERSION: "3.13"
-      POETRY_HOME: ${{ runner.temp }}/poetry
+      POETRY_HOME: "$RUNNER_TEMP/poetry"
       POETRY_VIRTUALENVS_IN_PROJECT: "true"
       POETRY_NO_INTERACTION: "1"
     steps:
