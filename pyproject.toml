@@ -24,7 +24,7 @@ gha-py-app = "gha_py_app:main"
 [tool.poetry.dependencies]
 python = ">=3.13,<4.0"
 # Simple logging
-loguru = "0.7"
+loguru = "^0.7"
 
 [tool.poetry.group.dev.dependencies]
 # Test framework
