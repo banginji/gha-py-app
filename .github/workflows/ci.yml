@@ -71,3 +71,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         env:
           github_repository: ${{ github.repository }}
+          DIFF_POETRY_LOCK_DEBUG: "true"
